@@ -194,9 +194,36 @@ function totalPaginasLidas(): number {
 
 console.log("Estatisticas: \n")
 console.log(`Total de livros: ${totalLivros()}`);
-console.log(`Total de livros lidos: ${totalLidos()}`);
-console.log(`Percentual de livros lidos: ${percentualLidos()}%`);
+console.log(`Total de livros lidos: ${totalLidos()} (${percentualLidos()}%)`);
 console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
 console.log(`Livro com maior avaliação: ${livroMaiorAvaliacao()}`);
 console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
 console.log(`Total páginas lidas: ${totalPaginasLidas()}`);
+
+function exibirPorDecada(): void {
+    const decadas: Record<string, string[]> = {};
+
+    anos.forEach((ano, indice) => {
+        const decada = `${Math.floor(ano / 10) * 10}s`;
+        if (!decadas[decada]) {
+            decadas[decada] = [];
+        }
+        decadas[decada].push(titulos[indice]);
+    });
+
+    const decadasOrdenadas = Object.keys(decadas).sort();
+    
+    if (decadasOrdenadas.length === 0) {
+        console.log("Nenhum livro para exibir.");
+        return;
+    }
+
+    decadasOrdenadas.forEach(decada => {
+        console.log(`\n--- ${decada} ---`);
+        decadas[decada].forEach(titulo => {
+            buscarPorTitulo(titulo);
+        });
+    });
+}
+
+exibirPorDecada();
