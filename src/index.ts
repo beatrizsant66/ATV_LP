@@ -5,7 +5,7 @@ const paginas: number[] = [];
 const lido: boolean[] = [];
 const avaliacoes: number[] = [];
 
-titulos.push(
+/*titulos.push(
   'O Hobbit',
   'Clean Code',
   '1984',
@@ -24,6 +24,7 @@ paginas.push(310, 464, 328, 256, 662);
 lido.push(true, true, false, true, false);
 avaliacoes.push(5, 4, 0, 5, 0);
 
+*/
 function exibirBiblioteca(): void{
     if (titulos.length === 0) {
         console.log("A biblioteca está vazia.");
@@ -69,6 +70,10 @@ function deletarLivro(indice: number): void{
 
 adicionarLivro("Hamlet","William Shakespeare",1623,192);
 adicionarLivro("A Revolução dos Bichos","George Orwell",1945,112);
+adicionarLivro("O Hobbit", "J.R.R. Tolkien", 1937, 310);
+adicionarLivro("Clean Code", "Robert C. Martin", 2008, 464);
+adicionarLivro("1984", "George Orwell", 1949, 328);
+adicionarLivro("Dom Casmurro", "Machado de Assis", 1899, 256);
 
 deletarLivro(4);
 
@@ -86,11 +91,10 @@ function exibirLivro(indice: number): void{
     console.log(`paginas: ${paginas[indice]}`);
     console.log(`status: ${status}`);
     console.log(`avaliaçao: ${avaliacoes[indice]}`);
-    console.log("-----------------------");
+    console.log("-----------------------\n");
 }
 
 function buscarPorTitulo(termo: string): void{
-    console.log("Livros Encontrados:\n");
     titulos.forEach((titulo, indice)=>{
         if(titulo.toLowerCase().includes(termo.toLowerCase())){
             exibirLivro(indice);
@@ -106,5 +110,41 @@ function listarPorAutor(termo: string): void{
     }
 }
 
-buscarPorTitulo("Bichos");
-console.log(listarPorAutor("George orwell"));
+//buscarPorTitulo("Bichos");
+//listarPorAutor("George orwell"));
+
+function marcarComoLido(indice: number, avaliacao: number): void {
+    if (indice < 0 || indice >= titulos.length) {
+        console.error("Índice inválido.");
+        return;
+    }
+    if (avaliacao < 1 || avaliacao > 5) {
+        console.error("Avaliação inválida. Deve ser um valor entre 1 e 5.");
+        return;
+    }
+    lido[indice] = true;
+    avaliacoes[indice] = avaliacao;
+}
+
+function listarLidos(): void {
+    const livrosEncontrados: string[] =  titulos.filter((_, indice) => lido[indice]);
+    console.log("Livros lidos: \n")
+    
+    for(let i = 0; i < livrosEncontrados.length; i++){
+        buscarPorTitulo(livrosEncontrados[i]);
+    }
+
+}
+
+function listarPendentes(): void {
+    const livrosEncontrados: string[] =  titulos.filter((_, indice) => !lido[indice]);
+    console.log("Livros pendentes: \n")
+
+    for(let i = 0; i < livrosEncontrados.length; i++){
+        buscarPorTitulo(livrosEncontrados[i]);
+    }
+}
+
+marcarComoLido(4, 3);
+listarLidos();
+listarPendentes();
