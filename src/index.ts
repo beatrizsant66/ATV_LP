@@ -45,7 +45,7 @@ function exibirBiblioteca(): void{
     });
 }
 
-exibirBiblioteca();
+//exibirBiblioteca();
 
 function adicionarLivro(titulo: string, autor: string, ano: number, totalPaginas: number): void{
     titulos.push(titulo);
@@ -72,5 +72,39 @@ adicionarLivro("A Revolução dos Bichos","George Orwell",1945,112);
 
 deletarLivro(4);
 
-exibirBiblioteca();
+//exibirBiblioteca();
 
+function exibirLivro(indice: number): void{
+    let status: string = "Não lido";
+    if (lido[indice]){
+        status = "Lido";
+    }
+    console.log(`id: ${indice} `);
+    console.log(`titulo: ${titulos[indice]}`);
+    console.log(`autor: ${autores[indice]}`);
+    console.log(`ano: ${anos[indice]}`);
+    console.log(`paginas: ${paginas[indice]}`);
+    console.log(`status: ${status}`);
+    console.log(`avaliaçao: ${avaliacoes[indice]}`);
+    console.log("-----------------------");
+}
+
+function buscarPorTitulo(termo: string): void{
+    console.log("Livros Encontrados:\n");
+    titulos.forEach((titulo, indice)=>{
+        if(titulo.toLowerCase().includes(termo.toLowerCase())){
+            exibirLivro(indice);
+        }
+    });
+}
+
+function listarPorAutor(termo: string): void{
+    const livrosEncontrados: string[] = titulos.map((_, indice)=> indice).filter((indice)=> autores[indice].toLowerCase()===termo.toLowerCase()).map((indice)=> titulos[indice]);
+    
+    for(let i = 0; i < livrosEncontrados.length; i++){
+        buscarPorTitulo(livrosEncontrados[i]);
+    }
+}
+
+buscarPorTitulo("Bichos");
+console.log(listarPorAutor("George orwell"));
