@@ -25,6 +25,7 @@ lido.push(true, true, false, true, false);
 avaliacoes.push(5, 4, 0, 5, 0);
 
 */
+
 function exibirBiblioteca(): void{
     if (titulos.length === 0) {
         console.log("A biblioteca está vazia.");
@@ -35,18 +36,9 @@ function exibirBiblioteca(): void{
         if (lido[indice]){
             status = "Lido";
         }
-        console.log(`id: ${indice} `);
-        console.log(`titulo: ${titulo}`);
-        console.log(`autor: ${autores[indice]}`);
-        console.log(`ano: ${anos[indice]}`);
-        console.log(`paginas: ${paginas[indice]}`);
-        console.log(`status: ${status}`);
-        console.log(`avaliaçao: ${avaliacoes[indice]}`);
-        console.log("-----------------------");
+        console.log(`${indice + 1}. "${titulo}" (${anos[indice]}) - ${autores[indice]} - ${paginas[indice]} páginas - ${status} (${avaliacoes[indice]}/5)`);
     });
 }
-
-//exibirBiblioteca();
 
 function adicionarLivro(titulo: string, autor: string, ano: number, totalPaginas: number): void{
     titulos.push(titulo);
@@ -77,21 +69,12 @@ adicionarLivro("Dom Casmurro", "Machado de Assis", 1899, 256);
 
 deletarLivro(4);
 
-//exibirBiblioteca();
-
 function exibirLivro(indice: number): void{
     let status: string = "Não lido";
     if (lido[indice]){
         status = "Lido";
     }
-    console.log(`id: ${indice} `);
-    console.log(`titulo: ${titulos[indice]}`);
-    console.log(`autor: ${autores[indice]}`);
-    console.log(`ano: ${anos[indice]}`);
-    console.log(`paginas: ${paginas[indice]}`);
-    console.log(`status: ${status}`);
-    console.log(`avaliaçao: ${avaliacoes[indice]}`);
-    console.log("-----------------------\n");
+    console.log(`${indice + 1}. "${titulos[indice]}" (${anos[indice]}) - ${autores[indice]} - ${paginas[indice]} páginas - ${status} (${avaliacoes[indice]}/5)`);
 }
 
 function buscarPorTitulo(termo: string): void{
@@ -109,9 +92,6 @@ function listarPorAutor(termo: string): void{
         buscarPorTitulo(livrosEncontrados[i]);
     }
 }
-
-//buscarPorTitulo("Bichos");
-//listarPorAutor("George orwell"));
 
 function marcarComoLido(indice: number, avaliacao: number): void {
     if (indice < 0 || indice >= titulos.length) {
@@ -146,8 +126,8 @@ function listarPendentes(): void {
 }
 
 marcarComoLido(4, 3);
-//listarLidos();
-//listarPendentes();
+marcarComoLido(1, 5);
+marcarComoLido(2, 4);
 
 function totalLivros(): number {
     return titulos.length;
@@ -192,14 +172,6 @@ function totalPaginasLidas(): number {
         .reduce((acumulador, paginas) => acumulador + paginas, 0);
 }
 
-console.log("Estatisticas: \n")
-console.log(`Total de livros: ${totalLivros()}`);
-console.log(`Total de livros lidos: ${totalLidos()} (${percentualLidos()}%)`);
-console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
-console.log(`Livro com maior avaliação: ${livroMaiorAvaliacao()}`);
-console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
-console.log(`Total páginas lidas: ${totalPaginasLidas()}`);
-
 function exibirPorDecada(): void {
     const decadas: Record<string, string[]> = {};
 
@@ -226,4 +198,16 @@ function exibirPorDecada(): void {
     });
 }
 
+
+console.log("\n--- MINHA BIBLIOTECA ---");
+exibirBiblioteca();
+
+console.log("\n--- ESTATISTICAS ---");
+console.log(`Total de livros: ${totalLivros()}`);
+console.log(`Total de livros lidos: ${totalLidos()} (${percentualLidos()}%)`);
+console.log(`Média das avaliações: ${mediaAvaliacoes()}`);
+console.log(`Livro com maior avaliação: ${livroMaiorAvaliacao()}`);
+console.log(`Total páginas lidas: ${totalPaginasLidas()}`);
+
+console.log("\n--- POR DECADA ---");
 exibirPorDecada();
