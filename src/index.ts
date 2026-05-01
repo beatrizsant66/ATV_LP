@@ -146,5 +146,57 @@ function listarPendentes(): void {
 }
 
 marcarComoLido(4, 3);
-listarLidos();
-listarPendentes();
+//listarLidos();
+//listarPendentes();
+
+function totalLivros(): number {
+    return titulos.length;
+}
+
+function totalLidos(): number {
+    return lido.filter(status => status).length;
+}
+
+function percentualLidos(): number {
+    const total = totalLivros();
+    if (total === 0) return 0;
+    return parseFloat(((totalLidos() / total) * 100).toFixed(2));
+}
+
+function mediaAvaliacoes(): number {
+    const notasLidas = avaliacoes.filter((_, indice) => lido[indice]);
+    
+    if (notasLidas.length === 0) return 0;
+    
+    const somaNotas = notasLidas.reduce((acumulador, nota) => acumulador + nota, 0);
+    return parseFloat((somaNotas / notasLidas.length).toFixed(2));
+}
+
+function livroMaiorAvaliacao(): string {
+    const indicesLidos = lido
+        .map((status, indice) => (status ? indice : -1))
+        .filter(indice => indice !== -1);
+
+    if (indicesLidos.length === 0) return "Nenhum livro avaliado.";
+
+    const indiceMaior = indicesLidos.reduce((maiorAtual, indiceAtual) => {
+        return avaliacoes[indiceAtual] > avaliacoes[maiorAtual] ? indiceAtual : maiorAtual;
+    });
+
+    return titulos[indiceMaior];
+}
+
+function totalPaginasLidas(): number {
+    return paginas
+        .filter((_, indice) => lido[indice])
+        .reduce((acumulador, paginas) => acumulador + paginas, 0);
+}
+
+console.log("Estatisticas: \n")
+console.log(`Total de livros: ${totalLivros()}`);
+console.log(`Total de livros lidos: ${totalLidos()}`);
+console.log(`Percentual de livros lidos: ${percentualLidos()}%`);
+console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
+console.log(`Livro com maior avaliação: ${livroMaiorAvaliacao()}`);
+console.log(`Média de avaliações: ${mediaAvaliacoes()}`);
+console.log(`Total páginas lidas: ${totalPaginasLidas()}`);
